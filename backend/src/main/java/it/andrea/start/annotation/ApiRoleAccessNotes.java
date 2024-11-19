@@ -1,0 +1,11 @@
+package it.andrea.start.annotation;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ApiRoleAccessNotes {
+
+    String[] roles() default {};
+
+}
