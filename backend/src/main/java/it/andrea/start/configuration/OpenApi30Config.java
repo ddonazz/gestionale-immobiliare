@@ -20,26 +20,26 @@ public class OpenApi30Config {
     private String baseUrlHttps;
 
     public OpenApi30Config(Environment environment) {
-        baseUrl = environment.getProperty("app.swagger.baseurl");
-        baseUrlHttps = environment.getProperty("app.swagger.baseurl-https");
+	baseUrl = environment.getProperty("app.swagger.baseurl");
+	baseUrlHttps = environment.getProperty("app.swagger.baseurl-https");
     }
 
     @Bean
     OpenAPI customOpenAPI() {
-        return new OpenAPI()
-                .servers(Arrays.asList(createServer(baseUrl), createServer(baseUrlHttps)))
-                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
-                .components(new Components().addSecuritySchemes(
-                        "bearerAuth",
-                        new SecurityScheme()
-                        .type(SecurityScheme.Type.HTTP)
-                        .scheme("bearer")
-                        .bearerFormat("JWT")))
-                .info(new Info().title("Start Spring Project API Documentation").version("v1"));
+	return new OpenAPI()
+		.servers(Arrays.asList(
+			createServer(baseUrl), 
+			createServer(baseUrlHttps)))
+		.addSecurityItem(new SecurityRequirement()
+			.addList("bearerAuth"))
+		.components(new Components()
+			.addSecuritySchemes("bearerAuth", new SecurityScheme().type(SecurityScheme.Type.HTTP)
+				.scheme("bearer").bearerFormat("JWT")))
+		.info(new Info().title("Gestionale Immobiliare API Documentation").version("v1"));
     }
 
     private Server createServer(String url) {
-        return new Server().url(url);
+	return new Server().url(url);
     }
 
 }

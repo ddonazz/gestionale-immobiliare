@@ -20,24 +20,24 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuthEntryPointJwt.class);
-    
+
     private static final String AUTH_ERROR = "error.authentication.userandpass";
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        logErrorDetails(request, authException);
+	logErrorDetails(request, authException);
 
-        response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+	response.setContentType("application/json");
+	response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        ResourceBundle rb = ResourceBundle.getBundle("bundles.Messages", Locale.ITALIAN);
+	ResourceBundle rb = ResourceBundle.getBundle("bundles.Messages", Locale.ITALIAN);
 
-        BadRequestResponse badRequestResponse = new BadRequestResponse("Unauthorized", authException.getMessage(), rb.getString(AUTH_ERROR));
-        response.getOutputStream().println(HelperString.toJson(badRequestResponse));
+	BadRequestResponse badRequestResponse = new BadRequestResponse("Unauthorized", authException.getMessage(), rb.getString(AUTH_ERROR));
+	response.getOutputStream().println(HelperString.toJson(badRequestResponse));
     }
 
     private void logErrorDetails(HttpServletRequest request, AuthenticationException authException) {
-        LOG.error("Unauthorized access attempt at [{}]: {} - {}", request.getRequestURL(), request.getRequestURI(), authException.getMessage());
+	LOG.error("Unauthorized access attempt at [{}]: {} - {}", request.getRequestURL(), request.getRequestURI(), authException.getMessage());
     }
 
 }

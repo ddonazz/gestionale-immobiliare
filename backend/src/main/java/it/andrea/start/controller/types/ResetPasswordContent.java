@@ -11,27 +11,27 @@ public class ResetPasswordContent implements Serializable {
     private String repeatPassword;
 
     public String getUuid() {
-        return uuid;
+	return uuid;
     }
 
     public void setUuid(String uuid) {
-        this.uuid = uuid;
+	this.uuid = uuid;
     }
 
     public String getNewPassword() {
-        return newPassword;
+	return newPassword;
     }
 
     public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
+	this.newPassword = newPassword;
     }
 
     public String getRepeatPassword() {
-        return repeatPassword;
+	return repeatPassword;
     }
 
     public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
+	this.repeatPassword = repeatPassword;
     }
 
 }

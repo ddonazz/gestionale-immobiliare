@@ -10,19 +10,19 @@ public class ChangePassword implements Serializable {
     private String repeatPassword;
 
     public String getNewPassword() {
-        return newPassword;
+	return newPassword;
     }
 
     public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
+	this.newPassword = newPassword;
     }
 
     public String getRepeatPassword() {
-        return repeatPassword;
+	return repeatPassword;
     }
 
     public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
+	this.repeatPassword = repeatPassword;
     }
 
 }

@@ -17,30 +17,30 @@ import it.andrea.start.exception.BusinessException;
 
 @ControllerAdvice
 public class BusinessExceptionHandler {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(BusinessExceptionHandler.class);
 
     @ExceptionHandler(BusinessException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public final ResponseEntity<Object> toResponse(BusinessException businessException, Locale locale) {
-        LOG.error("Catch exception", businessException);
-        
-        ResourceBundle rb = ResourceBundle.getBundle("bundles.Messages", locale);
-        String message = mapMessage(businessException, rb);
+	LOG.error("Catch exception", businessException);
 
-        BadRequestResponse response = new BadRequestResponse(businessException.getEntity(), businessException.getMessage(), message);
-    
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);   
+	ResourceBundle rb = ResourceBundle.getBundle("bundles.Messages", locale);
+	String message = mapMessage(businessException, rb);
+
+	BadRequestResponse response = new BadRequestResponse(businessException.getEntity(), businessException.getMessage(), message);
+
+	return ResponseEntity.badRequest().body(response);
     }
-    
-    private String mapMessage(BusinessException businessException, ResourceBundle rb) {
-        String errorCode = businessException.getCodice();
 
-        try {
-            return rb.getString(errorCode);
-        } catch (MissingResourceException e) {
-            return businessException.getMessage();
-        }
+    private String mapMessage(BusinessException businessException, ResourceBundle rb) {
+	String errorCode = businessException.getCodice();
+
+	try {
+	    return rb.getString(errorCode);
+	} catch (MissingResourceException e) {
+	    return businessException.getMessage();
+	}
     }
 
 }

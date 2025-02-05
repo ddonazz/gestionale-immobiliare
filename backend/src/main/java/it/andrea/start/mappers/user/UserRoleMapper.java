@@ -13,22 +13,20 @@ import jakarta.persistence.EntityManager;
 public class UserRoleMapper extends AbstractMapper<UserRoleDTO, UserRole> {
 
     public UserRoleMapper(EntityManager entityManager) {
-		super(entityManager);
-	}
+	super(entityManager);
+    }
 
-	@Override
+    @Override
     public UserRoleDTO toDto(UserRole entity) throws MappingToDtoException {
-        UserRoleDTO dto = new UserRoleDTO();
-        dto.setRole(entity.getRole());
-        dto.setRoleDescription(entity.getRoleDescription());
+	UserRoleDTO dto = new UserRoleDTO();
+	dto.setRole(entity.getRole().name());
 
-        return dto;
+	return dto;
     }
 
     @Override
     public void toEntity(UserRoleDTO dto, UserRole entity) throws MappingToEntityException {
-        entity.setRole(dto.getRole());
-        entity.setRoleDescription(dto.getRoleDescription());
+      // Non serve implementare perchè non creiamo i ruoli a runtime
     }
 
 }

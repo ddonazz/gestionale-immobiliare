@@ -13,32 +13,32 @@ import jakarta.persistence.EntityManager;
 public class JobInfoMapper extends AbstractMapper<JobInfoDTO, JobInfo> {
 
     public JobInfoMapper(EntityManager entityManager) {
-		super(entityManager);
-	}
+	super(entityManager);
+    }
 
-	@Override
+    @Override
     public JobInfoDTO toDto(JobInfo entity) throws MappingToDtoException {
-        JobInfoDTO dto = new JobInfoDTO();
-        dto.setJobName(entity.getJobName());
-        dto.setDescription(entity.getDescription());
-        dto.setJobGroup(entity.getJobGroup());
-        dto.setCronExpression(entity.getCronExpression());
-        dto.setRepeatTime(entity.getRepeatTime());
-        dto.setCronJob(entity.getCronJob());
-        dto.setIsActive(entity.getIsActive());
+	JobInfoDTO dto = new JobInfoDTO();
+	dto.setJobName(entity.getJobName());
+	dto.setDescription(entity.getDescription());
+	dto.setJobGroup(entity.getJobGroup());
+	dto.setCronExpression(entity.getCronExpression());
+	dto.setRepeatTime(entity.getRepeatTime());
+	dto.setCronJob(entity.getCronJob());
+	dto.setIsActive(entity.getIsActive());
 
-        return dto;
+	return dto;
     }
 
     @Override
     public void toEntity(JobInfoDTO dto, JobInfo entity) throws MappingToEntityException {
-        entity.setJobName(dto.getJobName());
-        entity.setDescription(dto.getDescription());
-        entity.setJobGroup(dto.getJobGroup());
-        entity.setCronExpression(dto.getCronExpression());
-        entity.setRepeatTime(dto.getRepeatTime());
-        entity.setCronJob(dto.getCronJob());
-        entity.setIsActive(dto.getIsActive());
+	entity.setJobName(dto.getJobName());
+	entity.setDescription(dto.getDescription());
+	entity.setJobGroup(dto.getJobGroup());
+	entity.setCronExpression(dto.getCronExpression());
+	entity.setRepeatTime(dto.getRepeatTime());
+	entity.setCronJob(dto.getCronJob());
+	entity.setIsActive(dto.getIsActive());
     }
 
 }

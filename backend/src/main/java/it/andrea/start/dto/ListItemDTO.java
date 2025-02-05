@@ -10,34 +10,34 @@ public class ListItemDTO implements Serializable {
     private String description;
 
     public ListItemDTO() {
-        super();
+	super();
     }
 
     public ListItemDTO(String id, String description) {
-        super();
-        this.id = id;
-        this.description = description;
+	super();
+	this.id = id;
+	this.description = description;
     }
 
     public String getId() {
-        return id;
+	return id;
     }
 
     public void setId(String id) {
-        this.id = id;
+	this.id = id;
     }
 
     public String getDescription() {
-        return description;
+	return description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+	this.description = description;
     }
 
     @Override
     public String toString() {
-        return "ListItemDTO [id=" + id + ", description=" + description + "]";
+	return "ListItemDTO [id=" + id + ", description=" + description + "]";
     }
 
 }

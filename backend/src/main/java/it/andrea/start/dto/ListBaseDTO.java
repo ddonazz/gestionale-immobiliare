@@ -10,25 +10,25 @@ public abstract class ListBaseDTO<T> implements Serializable {
     private Collection<T> items;
 
     public ListBaseDTO() {
-        super();
+	super();
     }
 
     public ListBaseDTO(Collection<T> items) {
-        super();
-        this.items = items;
+	super();
+	this.items = items;
     }
 
     public Collection<T> getItems() {
-        return items;
+	return items;
     }
 
     public void setItems(Collection<T> items) {
-        this.items = items;
+	this.items = items;
     }
 
     @Override
     public String toString() {
-        return "ListBaseDTO [items=" + items + "]";
+	return "ListBaseDTO [items=" + items + "]";
     }
 
 }

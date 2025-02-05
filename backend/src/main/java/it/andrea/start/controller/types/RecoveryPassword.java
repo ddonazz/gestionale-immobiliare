@@ -9,11 +9,11 @@ public class RecoveryPassword implements Serializable {
     private String email;
 
     public String getEmail() {
-        return email;
+	return email;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+	this.email = email;
     }
 
 }

@@ -13,24 +13,24 @@ public class SortSpecification implements Serializable {
     }
 
     public SortSpecification(String field, SortDirection direction) {
-        this.field = field;
-        this.direction = direction;
+	this.field = field;
+	this.direction = direction;
     }
 
     public String getField() {
-        return this.field;
+	return this.field;
     }
 
     public void setField(String field) {
-        this.field = field;
+	this.field = field;
     }
 
     public SortDirection getDirection() {
-        return this.direction;
+	return this.direction;
     }
 
     public void setDirection(SortDirection direction) {
-        this.direction = direction;
+	this.direction = direction;
     }
 
 }

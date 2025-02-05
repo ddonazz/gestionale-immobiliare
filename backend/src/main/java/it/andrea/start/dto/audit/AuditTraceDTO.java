@@ -7,169 +7,160 @@ import it.andrea.start.models.support.AuditActivity;
 import it.andrea.start.models.support.AuditTypeOperation;
 
 public class AuditTraceDTO implements Serializable {
-	private static final long serialVersionUID = -3074992839717814645L;
+    private static final long serialVersionUID = -3074992839717814645L;
 
-	private Long id;
-	private String sessionId;
-	private AuditActivity activity;
-	private Long userId;
-	private String userName;
-	private AuditTypeOperation auditType;
-	private LocalDateTime dateEvent;
-	private String dateEventString;
-	private String controllerMethod;
-	private String entityName;
-	private String entityKeyValue;
-	private String entityOldValue;
-	private String entityNewValue;
-	private String method;
-	private String url;
-	private String httpContextRequest;
-	private String httpContextResponse;
-	private String exceptionTrace;
+    private Long id;
+    private AuditActivity activity;
+    private Long userId;
+    private String userName;
+    private AuditTypeOperation auditType;
+    private LocalDateTime dateEvent;
+    private String dateEventString;
+    private String controllerMethod;
+    private String entityName;
+    private String entityKeyValue;
+    private String entityOldValue;
+    private String entityNewValue;
+    private String method;
+    private String url;
+    private String httpContextRequest;
+    private String httpContextResponse;
+    private String exceptionTrace;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+	return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+	this.id = id;
+    }
 
-	public String getSessionId() {
-		return sessionId;
-	}
+    public AuditActivity getActivity() {
+	return activity;
+    }
 
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
-	}
+    public void setActivity(AuditActivity activity) {
+	this.activity = activity;
+    }
 
-	public AuditActivity getActivity() {
-		return activity;
-	}
+    public Long getUserId() {
+	return userId;
+    }
 
-	public void setActivity(AuditActivity activity) {
-		this.activity = activity;
-	}
+    public void setUserId(Long userId) {
+	this.userId = userId;
+    }
 
-	public Long getUserId() {
-		return userId;
-	}
+    public String getUserName() {
+	return userName;
+    }
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    public void setUserName(String userName) {
+	this.userName = userName;
+    }
 
-	public String getUserName() {
-		return userName;
-	}
+    public AuditTypeOperation getAuditType() {
+	return auditType;
+    }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public void setAuditType(AuditTypeOperation auditType) {
+	this.auditType = auditType;
+    }
 
-	public AuditTypeOperation getAuditType() {
-		return auditType;
-	}
+    public LocalDateTime getDateEvent() {
+	return dateEvent;
+    }
 
-	public void setAuditType(AuditTypeOperation auditType) {
-		this.auditType = auditType;
-	}
+    public void setDateEvent(LocalDateTime dateEvent) {
+	this.dateEvent = dateEvent;
+    }
 
-	public LocalDateTime getDateEvent() {
-		return dateEvent;
-	}
+    public String getControllerMethod() {
+	return controllerMethod;
+    }
 
-	public void setDateEvent(LocalDateTime dateEvent) {
-		this.dateEvent = dateEvent;
-	}
+    public void setControllerMethod(String controllerMethod) {
+	this.controllerMethod = controllerMethod;
+    }
 
-	public String getControllerMethod() {
-		return controllerMethod;
-	}
+    public String getEntityName() {
+	return entityName;
+    }
 
-	public void setControllerMethod(String controllerMethod) {
-		this.controllerMethod = controllerMethod;
-	}
+    public void setEntityName(String entityName) {
+	this.entityName = entityName;
+    }
 
-	public String getEntityName() {
-		return entityName;
-	}
+    public String getEntityKeyValue() {
+	return entityKeyValue;
+    }
 
-	public void setEntityName(String entityName) {
-		this.entityName = entityName;
-	}
+    public void setEntityKeyValue(String entityKeyValue) {
+	this.entityKeyValue = entityKeyValue;
+    }
 
-	public String getEntityKeyValue() {
-		return entityKeyValue;
-	}
+    public String getEntityOldValue() {
+	return entityOldValue;
+    }
 
-	public void setEntityKeyValue(String entityKeyValue) {
-		this.entityKeyValue = entityKeyValue;
-	}
+    public void setEntityOldValue(String entityOldValue) {
+	this.entityOldValue = entityOldValue;
+    }
 
-	public String getEntityOldValue() {
-		return entityOldValue;
-	}
+    public String getEntityNewValue() {
+	return entityNewValue;
+    }
 
-	public void setEntityOldValue(String entityOldValue) {
-		this.entityOldValue = entityOldValue;
-	}
+    public void setEntityNewValue(String entityNewValue) {
+	this.entityNewValue = entityNewValue;
+    }
 
-	public String getEntityNewValue() {
-		return entityNewValue;
-	}
+    public String getMethod() {
+	return method;
+    }
 
-	public void setEntityNewValue(String entityNewValue) {
-		this.entityNewValue = entityNewValue;
-	}
+    public void setMethod(String method) {
+	this.method = method;
+    }
 
-	public String getMethod() {
-		return method;
-	}
+    public String getUrl() {
+	return url;
+    }
 
-	public void setMethod(String method) {
-		this.method = method;
-	}
+    public void setUrl(String url) {
+	this.url = url;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getHttpContextRequest() {
+	return httpContextRequest;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public void setHttpContextRequest(String httpContextRequest) {
+	this.httpContextRequest = httpContextRequest;
+    }
 
-	public String getHttpContextRequest() {
-		return httpContextRequest;
-	}
+    public String getHttpContextResponse() {
+	return httpContextResponse;
+    }
 
-	public void setHttpContextRequest(String httpContextRequest) {
-		this.httpContextRequest = httpContextRequest;
-	}
+    public void setHttpContextResponse(String httpContextResponse) {
+	this.httpContextResponse = httpContextResponse;
+    }
 
-	public String getHttpContextResponse() {
-		return httpContextResponse;
-	}
+    public String getExceptionTrace() {
+	return exceptionTrace;
+    }
 
-	public void setHttpContextResponse(String httpContextResponse) {
-		this.httpContextResponse = httpContextResponse;
-	}
+    public void setExceptionTrace(String exceptionTrace) {
+	this.exceptionTrace = exceptionTrace;
+    }
 
-	public String getExceptionTrace() {
-		return exceptionTrace;
-	}
+    public String getDateEventString() {
+	return dateEventString;
+    }
 
-	public void setExceptionTrace(String exceptionTrace) {
-		this.exceptionTrace = exceptionTrace;
-	}
-
-	public String getDateEventString() {
-		return dateEventString;
-	}
-
-	public void setDateEventString(String dateEventString) {
-		this.dateEventString = dateEventString;
-	}
+    public void setDateEventString(String dateEventString) {
+	this.dateEventString = dateEventString;
+    }
 
 }

@@ -6,13 +6,13 @@ public abstract class UserException extends Exception {
 
     private final String userId;
 
-    public UserException(String userId, String message) {
-        super(message);
-        this.userId = userId;
+    protected UserException(String userId, String message) {
+	super(message);
+	this.userId = userId;
     }
 
     public String getUserId() {
-        return userId;
+	return userId;
     }
 
 }

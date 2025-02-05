@@ -2,7 +2,7 @@
 package it.andrea.start.exception;
 
 public interface ExceptionCodeError {
-    
+
     public static final String CODE_USER_AUTHORIZE_LOGIN_ACCOUNT_PENDING = "user.authorize.login.account.pending";
     public static final String CODE_USER_AUTHORIZE_LOGIN_ACCOUNT_SUSPENDED = "user.authorize.login.account.suspended";
     public static final String CODE_USER_AUTHORIZE_LOGIN_ACCOUNT_DEACTIVE = "user.authorize.login.account.deactive";
@@ -52,5 +52,5 @@ public interface ExceptionCodeError {
     public static final String CODE_USER_ROLE_DESCRIPTION_WRONG_LENGHT = "error.user.role.description.wrong.lenght";
     public static final String CODE_USER_ROLE_DESCRIPTION_TOO_SHORT = "error.user.role.description.too.short";
     public static final String CODE_USER_ROLE_DESCRIPTION_TOO_LONG = "error.user.role.description.too.long";
-    
+
 }

@@ -16,7 +16,7 @@ public interface AuditTraceRepository extends JpaRepository<AuditTrace, Long>, J
 
     @Override
     public Optional<AuditTrace> findById(Long id);
-    
+
     @Modifying
     @Transactional
     @Query("DELETE FROM AuditTrace at WHERE at.dateEvent < :dateCompare")

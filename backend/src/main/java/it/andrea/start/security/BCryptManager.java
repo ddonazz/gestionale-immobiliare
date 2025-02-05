@@ -10,17 +10,17 @@ public class BCryptManager implements IEncrypterManager {
     private final PasswordEncoder passwordEncoder;
 
     public BCryptManager() {
-        this.passwordEncoder = new BCryptPasswordEncoder();
+	this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @Override
     public String encode(CharSequence value) {
-        return passwordEncoder.encode(value);
+	return passwordEncoder.encode(value);
     }
 
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
+	return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
 }

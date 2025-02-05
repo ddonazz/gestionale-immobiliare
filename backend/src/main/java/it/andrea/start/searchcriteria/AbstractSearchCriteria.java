@@ -10,11 +10,11 @@ public abstract class AbstractSearchCriteria implements Serializable {
     private Collection<SortSpecification> sort;
 
     public Collection<SortSpecification> getSort() {
-        return this.sort;
+	return this.sort;
     }
 
     public void setSort(Collection<SortSpecification> sort) {
-        this.sort = sort;
+	this.sort = sort;
     }
 
 }

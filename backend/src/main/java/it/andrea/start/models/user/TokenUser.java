@@ -21,14 +21,8 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(
-        name = "token_user", 
-        indexes = { 
-                @Index(name = "IDX_USER_ID", columnList = "user_id"),
-                @Index(name = "IDX_TOKEN_USER", columnList = "id, user_id, token_type") 
-                }
-        )
-public class TokenUser extends FirstBaseEntity  {
+@Table(name = "token_user", indexes = { @Index(name = "IDX_USER_ID", columnList = "user_id"), @Index(name = "IDX_TOKEN_USER", columnList = "id, user_id, token_type") })
+public class TokenUser extends FirstBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TOKEN_SEQ")
@@ -48,35 +42,35 @@ public class TokenUser extends FirstBaseEntity  {
     private LocalDateTime tokenExpire;
 
     public Long getId() {
-        return id;
+	return id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+	this.id = id;
     }
 
     public User getUser() {
-        return user;
+	return user;
     }
 
     public void setUser(User user) {
-        this.user = user;
+	this.user = user;
     }
 
     public TokenType getTokenType() {
-        return tokenType;
+	return tokenType;
     }
 
     public void setTokenType(TokenType tokenType) {
-        this.tokenType = tokenType;
+	this.tokenType = tokenType;
     }
 
     public LocalDateTime getTokenExpire() {
-        return tokenExpire;
+	return tokenExpire;
     }
 
     public void setTokenExpire(LocalDateTime tokenExpire) {
-        this.tokenExpire = tokenExpire;
+	this.tokenExpire = tokenExpire;
     }
 
 }

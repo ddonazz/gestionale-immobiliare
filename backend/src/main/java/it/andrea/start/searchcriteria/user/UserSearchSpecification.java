@@ -22,47 +22,43 @@ public class UserSearchSpecification implements Specification<User> {
     private UserSearchCriteria criterias;
 
     public UserSearchSpecification(UserSearchCriteria criterias) {
-        this.criterias = criterias;
+	this.criterias = criterias;
     }
 
     @Override
     public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 
-        List<Predicate> predicates = new ArrayList<>();
+	List<Predicate> predicates = new ArrayList<>();
 
-        Long id = criterias.getId();
-        String username = criterias.getUsername();
-        String textSearch = criterias.getTextSearch();
-        UserStatus userStatus = criterias.getUserStatus();
-        String[] role = criterias.getRole();
-        String[] roleNotValid = criterias.getRoleNotValid();
+	Long id = criterias.getId();
+	String username = criterias.getUsername();
+	String textSearch = criterias.getTextSearch();
+	UserStatus userStatus = criterias.getUserStatus();
+	String[] role = criterias.getRole();
+	String[] roleNotValid = criterias.getRoleNotValid();
 
-        if (id != null) {
-            predicates.add(criteriaBuilder.equal(root.get("id"), id));
-        }
-        if (StringUtils.isNotBlank(username)) {
-            predicates.add(criteriaBuilder.equal(root.get("username"), username));
-        }
-        if (StringUtils.isNotBlank(textSearch)) {
-            String value = "%" + textSearch + "%";
-            predicates.add(criteriaBuilder.or(
-                    criteriaBuilder.like(criteriaBuilder.upper(root.get("username")), value.toUpperCase()), 
-                    criteriaBuilder.like(criteriaBuilder.upper(root.get("email")), value.toUpperCase()), 
-                    criteriaBuilder.like(criteriaBuilder.upper(root.get("name")), value.toUpperCase())
-                    ));
-        }
-        if (userStatus != null) {
-            predicates.add(criteriaBuilder.equal(root.get("userStatus"), userStatus));
-        }
-        if (role != null && role.length > 0) {
-            Join<User, UserRole> joinRole = root.join("roles");
-            predicates.add(joinRole.get("role").in((Object[]) role));
-        }
-        if (roleNotValid != null && roleNotValid.length > 0) {
-            Join<User, UserRole> joinRoleNot = root.join("roles");
-            predicates.add(criteriaBuilder.not(joinRoleNot.get("role").in((Object[]) roleNotValid)));
-        }
+	if (id != null) {
+	    predicates.add(criteriaBuilder.equal(root.get("id"), id));
+	}
+	if (StringUtils.isNotBlank(username)) {
+	    predicates.add(criteriaBuilder.equal(root.get("username"), username));
+	}
+	if (StringUtils.isNotBlank(textSearch)) {
+	    String value = "%" + textSearch + "%";
+	    predicates.add(criteriaBuilder.or(criteriaBuilder.like(criteriaBuilder.upper(root.get("username")), value.toUpperCase()), criteriaBuilder.like(criteriaBuilder.upper(root.get("email")), value.toUpperCase()), criteriaBuilder.like(criteriaBuilder.upper(root.get("name")), value.toUpperCase())));
+	}
+	if (userStatus != null) {
+	    predicates.add(criteriaBuilder.equal(root.get("userStatus"), userStatus));
+	}
+	if (role != null && role.length > 0) {
+	    Join<User, UserRole> joinRole = root.join("roles");
+	    predicates.add(joinRole.get("role").in((Object[]) role));
+	}
+	if (roleNotValid != null && roleNotValid.length > 0) {
+	    Join<User, UserRole> joinRoleNot = root.join("roles");
+	    predicates.add(criteriaBuilder.not(joinRoleNot.get("role").in((Object[]) roleNotValid)));
+	}
 
-        return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+	return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
     }
 }

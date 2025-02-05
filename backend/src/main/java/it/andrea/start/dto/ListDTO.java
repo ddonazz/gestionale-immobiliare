@@ -7,16 +7,16 @@ public class ListDTO extends ListBaseDTO<ListItemDTO> {
     private static final long serialVersionUID = -2960092039348176201L;
 
     public ListDTO() {
-        super();
+	super();
     }
 
     public ListDTO(Collection<ListItemDTO> items) {
-        super(items);
+	super(items);
     }
 
     @Override
     public String toString() {
-        return "ListDTO [items=" + getItems() + "]";
+	return "ListDTO [items=" + getItems() + "]";
     }
 
 }

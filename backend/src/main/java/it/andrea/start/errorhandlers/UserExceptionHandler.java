@@ -1,6 +1,7 @@
 package it.andrea.start.errorhandlers;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.springframework.http.HttpStatus;
@@ -19,32 +20,30 @@ import it.andrea.start.exception.user.UserRoleNotFoundException;
 public class UserExceptionHandler {
 
     private static final String ENTITY = "User";
-    
-    @ExceptionHandler(UserException.class)
-    public final ResponseEntity<Object> toResponse(UserException userException, Locale locale) {
-        ResourceBundle rb = ResourceBundle.getBundle("bundles.Messages", locale);
-        String message = mapMessage(userException, rb);
+    private static final String MESSAGE_BUNDLE_PATH = "bundles.Messages";
 
-        BadRequestResponse response = new BadRequestResponse(ENTITY, userException.getMessage(), message);
-        
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    private static final Map<Class<? extends UserException>, String> EXCEPTION_MESSAGE_KEYS = Map.of(
+	    UserAlreadyExistsException.class, "error.user.alreadyexists", 
+	    UserNotFoundException.class, "error.user.notfound", 
+	    UserRoleAlreadyExistsException.class, "error.userrole.alreadyexists", 
+	    UserRoleNotFoundException.class, "error.userrole.notfound");
+
+    @ExceptionHandler(UserException.class)
+    public final ResponseEntity<Object> handleUserException(UserException userException, Locale locale) {
+	ResourceBundle rb = ResourceBundle.getBundle(MESSAGE_BUNDLE_PATH, locale);
+	String messageKey = resolveMessageKey(userException);
+	String localizedMessage = rb.getString(messageKey);
+
+	BadRequestResponse response = createBadRequestResponse(userException, localizedMessage);
+
+	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-    private String mapMessage(UserException userException, ResourceBundle rb) {
-        if (userException instanceof UserAlreadyExistsException) {
-            return rb.getString("error.user.alreadyexists");
-        } 
-        else if (userException instanceof UserNotFoundException) {
-            return rb.getString("error.user.notfound");
-        } 
-        else if (userException instanceof UserRoleAlreadyExistsException) {
-            return rb.getString("error.userrole.alreadyexists");
-        } 
-        else if (userException instanceof UserRoleNotFoundException) {
-            return rb.getString("error.userrole.notfound");
-        } 
-        else {
-            return userException.getMessage();
-        }
+    private String resolveMessageKey(UserException userException) {
+	return EXCEPTION_MESSAGE_KEYS.getOrDefault(userException.getClass(), "error.generic");
+    }
+
+    private BadRequestResponse createBadRequestResponse(UserException userException, String message) {
+	return new BadRequestResponse(ENTITY, userException.getMessage(), message);
     }
 }

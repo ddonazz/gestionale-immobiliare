@@ -21,75 +21,75 @@ public class AuditTraceSearchCriteria extends AbstractSearchCriteria {
     private LocalDateTime dateTo;
 
     public Long getId() {
-        return id;
+	return id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+	this.id = id;
     }
 
     public String getSessionId() {
-        return sessionId;
+	return sessionId;
     }
 
     public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
+	this.sessionId = sessionId;
     }
 
     public AuditActivity getActivity() {
-        return activity;
+	return activity;
     }
 
     public void setActivity(AuditActivity activity) {
-        this.activity = activity;
+	this.activity = activity;
     }
 
     public Long getUserId() {
-        return userId;
+	return userId;
     }
 
     public void setUserId(Long userId) {
-        this.userId = userId;
+	this.userId = userId;
     }
 
     public String getUserName() {
-        return userName;
+	return userName;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+	this.userName = userName;
     }
 
     public AuditTypeOperation getAuditType() {
-        return auditType;
+	return auditType;
     }
 
     public void setAuditType(AuditTypeOperation auditType) {
-        this.auditType = auditType;
+	this.auditType = auditType;
     }
 
     public String getTextSearch() {
-        return textSearch;
+	return textSearch;
     }
 
     public void setTextSearch(String textSearch) {
-        this.textSearch = textSearch;
+	this.textSearch = textSearch;
     }
 
     public LocalDateTime getDateFrom() {
-        return dateFrom;
+	return dateFrom;
     }
 
     public void setDateFrom(LocalDateTime dateFrom) {
-        this.dateFrom = dateFrom;
+	this.dateFrom = dateFrom;
     }
 
     public LocalDateTime getDateTo() {
-        return dateTo;
+	return dateTo;
     }
 
     public void setDateTo(LocalDateTime dateTo) {
-        this.dateTo = dateTo;
+	this.dateTo = dateTo;
     }
 
 }

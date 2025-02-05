@@ -39,75 +39,75 @@ public class JobInfo {
     private Boolean isActive;
 
     public String getJobName() {
-        return jobName;
+	return jobName;
     }
 
     public void setJobName(String jobName) {
-        this.jobName = jobName;
+	this.jobName = jobName;
     }
 
     public String getDescription() {
-        return description;
+	return description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+	this.description = description;
     }
 
     public String getJobGroup() {
-        return jobGroup;
+	return jobGroup;
     }
 
     public void setJobGroup(String jobGroup) {
-        this.jobGroup = jobGroup;
+	this.jobGroup = jobGroup;
     }
 
     public String getJobClass() {
-        return jobClass;
+	return jobClass;
     }
 
     public void setJobClass(String jobClass) {
-        this.jobClass = jobClass;
+	this.jobClass = jobClass;
     }
 
     public String getCronExpression() {
-        return cronExpression;
+	return cronExpression;
     }
 
     public void setCronExpression(String cronExpression) {
-        this.cronExpression = cronExpression;
+	this.cronExpression = cronExpression;
     }
 
     public Long getRepeatTime() {
-        return repeatTime;
+	return repeatTime;
     }
 
     public void setRepeatTime(Long repeatTime) {
-        this.repeatTime = repeatTime;
+	this.repeatTime = repeatTime;
     }
 
     public Boolean getCronJob() {
-        return cronJob;
+	return cronJob;
     }
 
     public void setCronJob(Boolean cronJob) {
-        this.cronJob = cronJob;
+	this.cronJob = cronJob;
     }
 
     public Boolean getIsActive() {
-        return isActive;
+	return isActive;
     }
 
     public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
+	this.isActive = isActive;
     }
 
     public int getRepeatCount() {
-        return repeatCount;
+	return repeatCount;
     }
 
     public void setRepeatCount(int repeatCount) {
-        this.repeatCount = repeatCount;
+	this.repeatCount = repeatCount;
     }
 
 }

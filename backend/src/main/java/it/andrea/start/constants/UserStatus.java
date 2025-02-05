@@ -8,23 +8,23 @@ public enum UserStatus {
     ACTIVE("ACTIVE"), 
     SUSPENDED("SUSPENDED"), 
     DEACTIVE("DEACTIVE"), 
-    BLACKLIST("BLACKLIST");
+    BLACKLIST("BLACKLIST"), 
+    LOCKED("LOCKED"), 
+    EXPIRED("EXPIRED");
 
-    // Member to hold the name
     private String string;
 
-    // constructor to set the string
     UserStatus(String name) {
-        string = name;
+	string = name;
     }
 
     @Override
     public String toString() {
-        return string;
+	return string;
     }
 
     public static Stream<UserStatus> stream() {
-        return Stream.of(UserStatus.values());
+	return Stream.of(UserStatus.values());
     }
 
 }

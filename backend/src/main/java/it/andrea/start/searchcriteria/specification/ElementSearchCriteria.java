@@ -7,27 +7,27 @@ public class ElementSearchCriteria {
     private Object value;
 
     public String getKey() {
-        return key;
+	return key;
     }
 
     public void setKey(String key) {
-        this.key = key;
+	this.key = key;
     }
 
     public SearchOperation getOperation() {
-        return operation;
+	return operation;
     }
 
     public void setOperation(SearchOperation operation) {
-        this.operation = operation;
+	this.operation = operation;
     }
 
     public Object getValue() {
-        return value;
+	return value;
     }
 
     public void setValue(Object value) {
-        this.value = value;
+	this.value = value;
     }
 
 }

@@ -9,11 +9,11 @@ public class JWTokenUserDTO extends UserDTO {
     private LocalDateTime fireToken;
 
     public LocalDateTime getFireToken() {
-        return fireToken;
+	return fireToken;
     }
 
     public void setFireToken(LocalDateTime fireToken) {
-        this.fireToken = fireToken;
+	this.fireToken = fireToken;
     }
 
 }

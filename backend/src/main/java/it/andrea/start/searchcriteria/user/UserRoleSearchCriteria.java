@@ -16,26 +16,26 @@ public class UserRoleSearchCriteria extends AbstractSearchCriteria {
     private String roleName;
 
     public String getRoleName() {
-        return roleName;
+	return roleName;
     }
 
     public void setRoleName(String roleName) {
-        this.roleName = roleName;
+	this.roleName = roleName;
     }
 
     public List<ElementSearchCriteria> getSearchCriteria() {
 
-        List<ElementSearchCriteria> criterias = new ArrayList<ElementSearchCriteria>();
+	List<ElementSearchCriteria> criterias = new ArrayList<ElementSearchCriteria>();
 
-        if (StringUtils.isNotBlank(roleName)) {
-            ElementSearchCriteria criteria = new ElementSearchCriteria();
-            criteria.setKey("role");
-            criteria.setOperation(SearchOperation.LIKE_NO_CASE_SENSITY);
-            criteria.setValue(this.roleName);
-            criterias.add(criteria);
-        }
+	if (StringUtils.isNotBlank(roleName)) {
+	    ElementSearchCriteria criteria = new ElementSearchCriteria();
+	    criteria.setKey("role");
+	    criteria.setOperation(SearchOperation.LIKE_NO_CASE_SENSITY);
+	    criteria.setValue(this.roleName);
+	    criterias.add(criteria);
+	}
 
-        return criterias;
+	return criterias;
     }
 
 }
