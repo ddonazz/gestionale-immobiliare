@@ -1,7 +1,6 @@
 package it.andrea.start.controller.user;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,13 +19,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import it.andrea.start.constants.ApplicationConstants;
 import it.andrea.start.controller.response.TokenResponse;
 import it.andrea.start.controller.types.ChangePassword;
 import it.andrea.start.controller.types.LoginRequest;
 import it.andrea.start.controller.types.RecoveryPassword;
 import it.andrea.start.controller.types.ResetPasswordContent;
 import it.andrea.start.dto.user.UserDTO;
+import it.andrea.start.exception.MappingToDtoException;
+import it.andrea.start.exception.user.UserNotFoundException;
 import it.andrea.start.security.jwt.JwtUtils;
 import it.andrea.start.security.service.JWTokenUserDetails;
 import it.andrea.start.service.user.UserService;
@@ -105,12 +105,12 @@ public class AuthorizeController {
 		    }
 	    )
     @GetMapping("/whoami")
-    @Secured({ ApplicationConstants.SYSTEM_ROLE_ADMIN_ANNOTATION })
-    public ResponseEntity<UserDTO> whoami(@RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language) throws Exception {
+    public ResponseEntity<UserDTO> whoami(
+	    @RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language) throws UserNotFoundException, MappingToDtoException  {
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	JWTokenUserDetails userDetails = (JWTokenUserDetails) authentication.getPrincipal();
 
-	UserDTO dto = userService.getUserWho(userDetails);
+	UserDTO dto = userService.whoami(userDetails);
 
 	return ResponseEntity.ok(dto);
     }

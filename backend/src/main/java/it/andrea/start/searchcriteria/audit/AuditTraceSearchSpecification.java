@@ -27,9 +27,7 @@ public class AuditTraceSearchSpecification implements Specification<AuditTrace> 
 
     @Override
     public Predicate toPredicate(Root<AuditTrace> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-
-	// create a new predicate list
-	List<Predicate> predicatesAnd = new ArrayList<Predicate>();
+	List<Predicate> predicatesAnd = new ArrayList<>();
 
 	Long id = criterias.getId();
 	String sessionId = criterias.getSessionId();
@@ -60,7 +58,7 @@ public class AuditTraceSearchSpecification implements Specification<AuditTrace> 
 	    predicatesAnd.add(criteriaBuilder.equal(root.get("auditType"), auditType.toString()));
 	}
 	if (StringUtils.isNotBlank(textSearch)) {
-	    List<Predicate> predicatesOr = new ArrayList<Predicate>();
+	    List<Predicate> predicatesOr = new ArrayList<>();
 
 	    String value = "%" + textSearch + "%";
 	    predicatesOr.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("controllerMethod")), value.toUpperCase()));

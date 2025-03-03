@@ -1,18 +1,18 @@
 package it.andrea.start.searchcriteria.user;
 
+import java.util.Collection;
+
+import it.andrea.start.constants.RoleType;
 import it.andrea.start.constants.UserStatus;
-import it.andrea.start.searchcriteria.AbstractSearchCriteria;
 
-public class UserSearchCriteria extends AbstractSearchCriteria {
-
-    private static final long serialVersionUID = 5296416720523897796L;
+public class UserSearchCriteria {
 
     private Long id;
     private String username;
     private String textSearch;
     private UserStatus userStatus;
-    private String[] role;
-    private String[] roleNotValid;
+    private Collection<RoleType> roles;
+    private Collection<RoleType> rolesNotValid;
 
     public Long getId() {
 	return id;
@@ -46,20 +46,20 @@ public class UserSearchCriteria extends AbstractSearchCriteria {
 	this.userStatus = userStatus;
     }
 
-    public String[] getRole() {
-	return role;
+    public Collection<RoleType> getRoles() {
+        return roles;
     }
 
-    public void setRole(String[] role) {
-	this.role = role;
+    public void setRoles(Collection<RoleType> roles) {
+        this.roles = roles;
     }
 
-    public String[] getRoleNotValid() {
-	return roleNotValid;
+    public Collection<RoleType> getRolesNotValid() {
+        return rolesNotValid;
     }
 
-    public void setRoleNotValid(String[] roleNotValid) {
-	this.roleNotValid = roleNotValid;
+    public void setRolesNotValid(Collection<RoleType> rolesNotValid) {
+        this.rolesNotValid = rolesNotValid;
     }
 
 }

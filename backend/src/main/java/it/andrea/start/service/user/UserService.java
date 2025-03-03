@@ -1,6 +1,7 @@
 package it.andrea.start.service.user;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.data.domain.Pageable;
 
 import it.andrea.start.dto.audit.AuditTraceDTO;
 import it.andrea.start.dto.user.UserDTO;
@@ -21,7 +22,7 @@ public interface UserService {
 
     UserDTO getUser(Long id) throws UserNotFoundException, MappingToDtoException;
 
-    UserDTO getUserWho(JWTokenUserDetails jWTokenUserDetails) throws UserNotFoundException, MappingToDtoException;
+    UserDTO whoami(JWTokenUserDetails jWTokenUserDetails) throws UserNotFoundException, MappingToDtoException;
 
     UserDTO createUser(UserDTO userDTO, JWTokenUserDetails userDetails, String language) throws BusinessException, MappingToEntityException, MappingToDtoException, UserAlreadyExistsException;
 
@@ -29,9 +30,7 @@ public interface UserService {
 
     void deleteUser(Long id, JWTokenUserDetails userDetails, String language) throws UserNotFoundException, BusinessException;
 
-    PagedResult<UserDTO> listUser(UserSearchCriteria criteria, JWTokenUserDetails userDetails, String language) throws MappingToDtoException;
-
-    PagedResult<UserDTO> listUser(UserSearchCriteria criteria, int pageNum, int pageSize, JWTokenUserDetails userDetails, String language) throws MappingToDtoException;
+    PagedResult<UserDTO> listUser(UserSearchCriteria criteria, Pageable pageable, JWTokenUserDetails userDetails, String language) throws MappingToDtoException;
 
     void changePassword(Long userId, String newPassword, String repeatPassword, JWTokenUserDetails userDetails, String language) throws UserNotFoundException, BusinessException;
 

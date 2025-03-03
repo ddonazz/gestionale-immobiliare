@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import it.andrea.start.constants.ApplicationConstants;
 import it.andrea.start.dto.audit.AuditTraceDTO;
 import it.andrea.start.exception.MappingToDtoException;
 import it.andrea.start.models.support.AuditActivity;
@@ -21,13 +20,12 @@ import it.andrea.start.models.support.AuditTypeOperation;
 import it.andrea.start.searchcriteria.audit.AuditTraceSearchCriteria;
 import it.andrea.start.service.audit.AuditTraceService;
 import it.andrea.start.utils.HelperDate;
-import it.andrea.start.utils.PageFilteringSortingUtility;
 import it.andrea.start.utils.PagedResult;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/audit")
-@PreAuthorize("hasRole('" + ApplicationConstants.SYSTEM_ROLE_ADMIN_ANNOTATION + "')")
+@PreAuthorize("hasRole('ADMIN')")
 public class AuditController {
 
     private AuditTraceService auditTraceService;
@@ -54,7 +52,6 @@ public class AuditController {
 	auditTraceSearchCriteria.setTextSearch(textSearch);
 	auditTraceSearchCriteria.setDateFrom(HelperDate.parseDate(dateFrom, HelperDate.TIMESTAMP_WITH_TIMEZONE_FORMAT, true));
 	auditTraceSearchCriteria.setDateTo(HelperDate.parseDate(dateTo, HelperDate.TIMESTAMP_WITH_TIMEZONE_FORMAT, true));
-	PageFilteringSortingUtility.applySort(auditTraceSearchCriteria, sorts);
 
 	PagedResult<AuditTraceDTO> audits = auditTraceService.searchAuditTrace(auditTraceSearchCriteria, pageNum, pageSize);
 	return ResponseEntity.ok(audits);
@@ -65,9 +62,6 @@ public class AuditController {
     public ResponseEntity<PagedResult<AuditTraceDTO>> getAudit(@RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language, @PathVariable Long id, @RequestParam(required = false, defaultValue = "1") Integer pageNum, @RequestParam(required = false, defaultValue = "1") Integer pageSize) throws MappingToDtoException {
 	AuditTraceSearchCriteria auditTraceSearchCriteria = new AuditTraceSearchCriteria();
 	auditTraceSearchCriteria.setId(id);
-
-	String[] sorts = null;
-	PageFilteringSortingUtility.applySort(auditTraceSearchCriteria, sorts);
 
 	PagedResult<AuditTraceDTO> audits = auditTraceService.searchAuditTrace(auditTraceSearchCriteria, pageNum, pageSize);
 	return ResponseEntity.ok(audits);

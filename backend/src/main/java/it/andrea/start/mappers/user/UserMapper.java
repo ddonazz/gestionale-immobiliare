@@ -21,7 +21,7 @@ public class UserMapper extends AbstractMapper<UserDTO, User> {
     
     private final UserRoleRepository userRoleRepository;
 
-    public UserMapper(EntityManager entityManager, UserRoleRepository userRoleRepository) {
+    public UserMapper(final EntityManager entityManager, final UserRoleRepository userRoleRepository) {
 	super(entityManager);
 	this.userRoleRepository = userRoleRepository;
     }

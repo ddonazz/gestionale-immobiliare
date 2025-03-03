@@ -2,6 +2,10 @@ package it.andrea.start.controller.user;
 
 import static it.andrea.start.constants.ApplicationConstants.DEFAULT_LANGUAGE;
 
+import java.util.Collection;
+
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.andrea.start.annotation.Audit;
 import it.andrea.start.annotation.CustomApiOperation;
+import it.andrea.start.constants.RoleType;
 import it.andrea.start.constants.UserStatus;
 import it.andrea.start.controller.types.ChangePassword;
 import it.andrea.start.dto.user.UserDTO;
@@ -33,7 +38,6 @@ import it.andrea.start.models.support.AuditTypeOperation;
 import it.andrea.start.searchcriteria.user.UserSearchCriteria;
 import it.andrea.start.security.service.JWTokenUserDetails;
 import it.andrea.start.service.user.UserService;
-import it.andrea.start.utils.PageFilteringSortingUtility;
 import it.andrea.start.utils.PagedResult;
 import it.andrea.start.validator.OnCreate;
 import jakarta.servlet.http.HttpServletRequest;
@@ -58,11 +62,11 @@ public class UserController {
     @Audit(activity = AuditActivity.USER_OPERATION, type = AuditTypeOperation.CREATE)
     public ResponseEntity<UserDTO> createUser(
 	    HttpServletRequest httpServletRequest, 
-	    @RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language, 
 	    @RequestBody @Validated(OnCreate.class) UserDTO userDTO) throws BusinessException, MappingToEntityException, MappingToDtoException, UserAlreadyExistsException {
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	JWTokenUserDetails userDetails = (JWTokenUserDetails) authentication.getPrincipal();
-
+	String language = LocaleContextHolder.getLocale().getLanguage();
+	
 	userDTO = userService.createUser(userDTO, userDetails, language);
 
 	return ResponseEntity.ok(userDTO);
@@ -141,28 +145,22 @@ public class UserController {
 	    @RequestParam(required = false) String username, 
 	    @RequestParam(required = false) String textSearch, 
 	    @RequestParam(required = false) UserStatus userStatus,
-	    @RequestParam(required = false) String[] role,
-	    @RequestParam(required = false) String[] sorts,
-	    @RequestParam(required = false) Integer pageNum, 
-	    @RequestParam(required = false) Integer pageSize) throws MappingToDtoException  {
+	    @RequestParam(required = false) Collection<RoleType> roles,
+	    @RequestParam(required = false) Collection<RoleType> rolesNotValid,
+	    Pageable pageable) throws MappingToDtoException  {
 
 	UserSearchCriteria criteria = new UserSearchCriteria();
 	criteria.setId(id);
 	criteria.setUsername(username);
 	criteria.setTextSearch(textSearch);
 	criteria.setUserStatus(userStatus);
-	criteria.setRole(role);
-	PageFilteringSortingUtility.applySort(criteria, sorts);
-
+	criteria.setRoles(roles);
+	criteria.setRolesNotValid(rolesNotValid);
+	
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	JWTokenUserDetails userDetails = (JWTokenUserDetails) authentication.getPrincipal();
-
-	PagedResult<UserDTO> users;
-	if (pageSize != null) {
-	    users = userService.listUser(criteria, pageNum, pageSize, userDetails, language);
-	} else {
-	    users = userService.listUser(criteria, userDetails, language);
-	}
+	
+	PagedResult<UserDTO> users = userService.listUser(criteria, pageable, userDetails, language);
 
 	return ResponseEntity.ok(users);
     }

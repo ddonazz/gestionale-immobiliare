@@ -7,74 +7,49 @@ public class PagedResult<T extends Serializable> implements Serializable {
     private static final long serialVersionUID = -8138842272681687945L;
 
     private Collection<T> items;
-    private Integer itemStart;
-    private Integer itemNum;
-    private Integer itemCount;
-    private Integer pageNum;
-    private Integer pageCount;
+    private Integer totalElements;
+    private Integer pageNumber;
+    private Integer pageSize;
 
-    public PagedResult() {
-    }
+    public PagedResult() {}
 
-    public PagedResult(Collection<T> items, Integer itemStart, Integer itemNum, Integer itemCount, Integer pageNum, Integer pageCount) {
+    public PagedResult(Collection<T> items, Integer totalElements, Integer pageNumber, Integer pageSize) {
 	this.items = items;
-	this.itemStart = itemStart;
-	this.itemNum = itemNum;
-	this.itemCount = itemCount;
-	this.pageNum = pageNum;
-	this.pageCount = pageCount;
+	this.totalElements = totalElements;
+	this.pageNumber = pageNumber;
+	this.pageSize = pageSize;
     }
 
     public Collection<T> getItems() {
-	return this.items;
+	return items;
     }
 
     public void setItems(Collection<T> items) {
 	this.items = items;
     }
 
-    public Integer getItemStart() {
-	return this.itemStart;
+    public Integer getTotalElements() {
+	return totalElements;
     }
 
-    public void setItemStart(Integer itemStart) {
-	this.itemStart = itemStart;
+    public void setTotalElements(Integer totalElements) {
+	this.totalElements = totalElements;
     }
 
-    public Integer getItemNum() {
-	return this.itemNum;
+    public Integer getPageNumber() {
+	return pageNumber;
     }
 
-    public void setItemNum(Integer itemNum) {
-	this.itemNum = itemNum;
+    public void setPageNumber(Integer pageNumber) {
+	this.pageNumber = pageNumber;
     }
 
-    public Integer getItemCount() {
-	return this.itemCount;
+    public Integer getPageSize() {
+	return pageSize;
     }
 
-    public void setItemCount(Integer itemCount) {
-	this.itemCount = itemCount;
-    }
-
-    public Integer getPageNum() {
-	return this.pageNum;
-    }
-
-    public void setPageNum(Integer pageNum) {
-	this.pageNum = pageNum;
-    }
-
-    public Integer getPageCount() {
-	return this.pageCount;
-    }
-
-    public void setPageCount(Integer pageCount) {
-	this.pageCount = pageCount;
-    }
-
-    public String toString() {
-	return "PagedResult [items=" + this.items + ", itemStart=" + this.itemStart + ", itemNum=" + this.itemNum + ", itemCount=" + this.itemCount + ", pageNum=" + this.pageNum + ", pageCount=" + this.pageCount + "]";
+    public void setPageSize(Integer pageSize) {
+	this.pageSize = pageSize;
     }
 
 }

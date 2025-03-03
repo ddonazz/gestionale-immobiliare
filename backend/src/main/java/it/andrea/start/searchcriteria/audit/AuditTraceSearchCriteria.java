@@ -4,12 +4,9 @@ import java.time.LocalDateTime;
 
 import it.andrea.start.models.support.AuditActivity;
 import it.andrea.start.models.support.AuditTypeOperation;
-import it.andrea.start.searchcriteria.AbstractSearchCriteria;
 
-public class AuditTraceSearchCriteria extends AbstractSearchCriteria {
-
-    private static final long serialVersionUID = -7357362716606684198L;
-
+public class AuditTraceSearchCriteria {
+    
     private Long id;
     private String sessionId;
     private AuditActivity activity;

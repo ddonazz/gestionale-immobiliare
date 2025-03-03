@@ -1,5 +1,6 @@
 package it.andrea.start.controller.utility;
 
+import java.text.ParseException;
 import java.util.Collection;
 
 import org.springframework.http.ResponseEntity;
@@ -16,13 +17,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import it.andrea.start.constants.ApplicationConstants;
 import it.andrea.start.dto.JobInfoDTO;
 import it.andrea.start.service.JobInfoService;
 
 @RestController
 @RequestMapping("/api/job")
-@PreAuthorize("hasRole('" + ApplicationConstants.SYSTEM_ROLE_ADMIN_ANNOTATION + "')")
+@PreAuthorize("hasRole('ADMIN')")
 public class JobController {
 
     private JobInfoService jobInfoService;
@@ -52,8 +52,7 @@ public class JobController {
 
     @Operation(method = "PUT", description = "Update un job in esecuzione", summary = "Update un job in esecuzione", responses = { @ApiResponse(responseCode = "200", description = "OK"), @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "401", description = "Not authorized", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true))) })
     @PutMapping("/updateScheduleJob/{jobName}")
-    public ResponseEntity<Void> updateScheduleJob(@RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language, @PathVariable String jobName) throws Exception {
-
+    public ResponseEntity<Void> updateScheduleJob(@RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language, @PathVariable String jobName) throws ParseException  {
 	jobInfoService.updateScheduleJob(jobName);
 
 	return ResponseEntity.ok().build();

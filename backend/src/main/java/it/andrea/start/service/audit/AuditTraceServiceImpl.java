@@ -23,7 +23,6 @@ import it.andrea.start.models.audit.AuditTrace;
 import it.andrea.start.repository.audit.AuditTraceRepository;
 import it.andrea.start.searchcriteria.audit.AuditTraceSearchCriteria;
 import it.andrea.start.searchcriteria.audit.AuditTraceSearchSpecification;
-import it.andrea.start.utils.PageFilteringSortingUtility;
 import it.andrea.start.utils.PagedResult;
 
 @Service
@@ -67,22 +66,14 @@ public class AuditTraceServiceImpl implements AuditTraceService {
     @Transactional(rollbackFor = Throwable.class, propagation = Propagation.REQUIRED)
     public PagedResult<AuditTraceDTO> searchAuditTrace(AuditTraceSearchCriteria criteria, int pageNum, int pageSize) throws MappingToDtoException {
 	AuditTraceSearchSpecification specList = new AuditTraceSearchSpecification(criteria);
-	List<Sort> sortList = PageFilteringSortingUtility.generateSortList(criteria.getSort());
-	Sort sort = PageFilteringSortingUtility.getSortSequence(sortList).orElse(Sort.by(Direction.DESC, "id"));
 
-	if (pageSize == -1) {
-	    pageNum = 1;
-	    pageSize = Integer.MAX_VALUE;
-	}
-
-	Pageable pageable = PageRequest.of(pageNum - 1, pageSize, sort);
+	Pageable pageable = PageRequest.of(pageNum - 1, pageSize, Sort.by(Direction.DESC, "id"));
 
 	Page<AuditTrace> page = auditTraceRepository.findAll(specList, pageable);
 
 	PagedResult<AuditTraceDTO> result = new PagedResult<>();
 
 	int num = (int) page.getTotalElements();
-	PageFilteringSortingUtility.computePage(result, num, pageNum, pageSize);
 
 	Collection<AuditTrace> audits = page.getContent();
 	result.setItems(auditMapper.toDtos(audits));

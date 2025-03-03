@@ -1,11 +1,8 @@
 package it.andrea.start.service.user;
-
-import static it.andrea.start.constants.ApplicationConstants.MAX_PAGE_SIZE;
 import static it.andrea.start.constants.ApplicationConstants.SYSTEM_ENTITY_MANAGE;
 import static it.andrea.start.exception.ExceptionCodeError.CODE_USER_ROLE_ADMIN_NOT_DELETE;
 import static it.andrea.start.exception.ExceptionCodeError.CODE_USER_ROLE_MANAGER_NOT_DELETE;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,10 +10,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +36,6 @@ import it.andrea.start.security.service.JWTokenUserDetails;
 import it.andrea.start.utils.HelperAudit;
 import it.andrea.start.utils.HelperAuthorization;
 import it.andrea.start.utils.HelperString;
-import it.andrea.start.utils.PageFilteringSortingUtility;
 import it.andrea.start.utils.PagedResult;
 import it.andrea.start.validator.user.UserValidator;
 
@@ -106,7 +99,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-    public UserDTO getUserWho(JWTokenUserDetails jWTokenUserDetails) throws UserNotFoundException, MappingToDtoException {
+    public UserDTO whoami(JWTokenUserDetails jWTokenUserDetails) throws UserNotFoundException, MappingToDtoException {
 	String username = jWTokenUserDetails.getUsername();
 	Optional<User> optionalUser = userRepository.findByUsername(username);
 	if (optionalUser.isEmpty()) {
@@ -201,30 +194,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, readOnly = true, propagation = Propagation.REQUIRED)
-    public PagedResult<UserDTO> listUser(UserSearchCriteria criteria, JWTokenUserDetails userDetails, String language) throws MappingToDtoException {
-	return this.listUser(criteria, 0, -1, userDetails, language);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class, readOnly = true, propagation = Propagation.REQUIRED)
-    public PagedResult<UserDTO> listUser(UserSearchCriteria criteria, int pageNum, int pageSize, JWTokenUserDetails userDetails, String language) throws MappingToDtoException {
-	List<Sort> sortList = PageFilteringSortingUtility.generateSortList(criteria.getSort());
-	Sort sort = PageFilteringSortingUtility.getSortSequence(sortList).orElse(Sort.by(Direction.ASC, "username"));
-	if (pageSize == -1) {
-	    pageNum = 1;
-	    pageSize = MAX_PAGE_SIZE;
-	}
-
-	Pageable pageable = PageRequest.of(pageNum - 1, pageSize, sort);
-
-	Page<User> page = userRepository.findAll(new UserSearchSpecification(criteria), pageable);
-
-	PagedResult<UserDTO> result = new PagedResult<>();
-	PageFilteringSortingUtility.computePage(result, (int) page.getTotalElements(), pageNum, pageSize);
-
-	List<User> users = page.getContent();
-	result.setItems(userMapper.toDtos(users));
-
+    public PagedResult<UserDTO> listUser(UserSearchCriteria criteria, Pageable pageable, JWTokenUserDetails userDetails, String language) throws MappingToDtoException {
+	final Page<User> userPage  = userRepository.findAll(new UserSearchSpecification(criteria), pageable);
+	
+	final Page<UserDTO> dtoPage = userPage.map(user -> {
+	    try {
+	        return userMapper.toDto(user);
+	    } catch (MappingToDtoException e) {
+	        throw new RuntimeException("Errore durante il mapping dell'utente", e);
+	    }
+	});
+	
+	final PagedResult<UserDTO> result = new PagedResult<>();
+	    result.setItems(dtoPage.getContent());
+	    result.setPageNumber(dtoPage.getNumber() + 1);
+	    result.setPageSize(dtoPage.getSize());
+	    result.setTotalElements((int) dtoPage.getTotalElements());
+	    
 	return result;
     }
 
@@ -245,7 +231,7 @@ public class UserServiceImpl implements UserService {
 	String passwordCrypt = encrypterManager.encode(newPassword);
 	user.setPassword(passwordCrypt);
 	user.setLastModifiedBy(userDetails.getUsername());
-
+	
 	userRepository.save(user);
     }
 

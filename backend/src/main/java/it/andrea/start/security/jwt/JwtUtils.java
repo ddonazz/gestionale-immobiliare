@@ -71,7 +71,10 @@ public class JwtUtils {
                     .getPayload();
 
             String username = claims.getSubject();
-            List<String> authorities = claims.get("authorities", List.class);
+            List<?> rawAuthorities = claims.get("authorities", List.class);
+            List<String> authorities = rawAuthorities.stream()
+                    .map(String::valueOf)
+                    .toList();
 
             return Optional.of(new JWTokenUserDetails.Builder()
                     .username(username)
