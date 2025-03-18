@@ -16,7 +16,7 @@ import it.andrea.start.utils.PagedResult;
 
 public interface UserService {
 
-    void requestPasswordReset(String email, String language) throws UserNotFoundException;
+    void requestPasswordReset(String email) throws UserNotFoundException;
 
     UserDTO getUser(String username) throws UserNotFoundException, MappingToDtoException;
 
@@ -24,16 +24,16 @@ public interface UserService {
 
     UserDTO whoami(JWTokenUserDetails jWTokenUserDetails) throws UserNotFoundException, MappingToDtoException;
 
-    UserDTO createUser(UserDTO userDTO, JWTokenUserDetails userDetails, String language) throws BusinessException, MappingToEntityException, MappingToDtoException, UserAlreadyExistsException;
+    UserDTO createUser(UserDTO userDTO, JWTokenUserDetails userDetails) throws BusinessException, MappingToEntityException, MappingToDtoException, UserAlreadyExistsException;
 
-    Pair<UserDTO, AuditTraceDTO> updateUser(UserDTO userDTO, JWTokenUserDetails userDetails, String language) throws UserNotFoundException, BusinessException, MappingToEntityException, MappingToDtoException, UserAlreadyExistsException;
+    Pair<UserDTO, AuditTraceDTO> updateUser(UserDTO userDTO, JWTokenUserDetails userDetails) throws UserNotFoundException, BusinessException, MappingToEntityException, MappingToDtoException, UserAlreadyExistsException;
 
-    void deleteUser(Long id, JWTokenUserDetails userDetails, String language) throws UserNotFoundException, BusinessException;
+    void deleteUser(Long id, JWTokenUserDetails userDetails) throws UserNotFoundException, BusinessException;
 
-    PagedResult<UserDTO> listUser(UserSearchCriteria criteria, Pageable pageable, JWTokenUserDetails userDetails, String language) throws MappingToDtoException;
+    PagedResult<UserDTO> listUser(UserSearchCriteria criteria, Pageable pageable, JWTokenUserDetails userDetails) throws MappingToDtoException;
 
-    void changePassword(Long userId, String newPassword, String repeatPassword, JWTokenUserDetails userDetails, String language) throws UserNotFoundException, BusinessException;
+    void changePassword(Long userId, String newPassword, String repeatPassword, JWTokenUserDetails userDetails) throws UserNotFoundException, BusinessException;
 
-    void changePassword(String username, String newPassword, String repeatPassword, JWTokenUserDetails userDetails, String language) throws UserNotFoundException, BusinessException;
+    void changePassword(String username, String newPassword, String repeatPassword, JWTokenUserDetails userDetails) throws UserNotFoundException, BusinessException;
 
 }

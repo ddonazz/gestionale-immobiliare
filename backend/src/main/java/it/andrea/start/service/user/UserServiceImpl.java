@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void requestPasswordReset(String email, String language) throws UserNotFoundException {
+    public void requestPasswordReset(String email) throws UserNotFoundException {
 	Optional<User> optionalUser = userRepository.findByEmail(email);
 	if (optionalUser.isEmpty()) {
 	    throw new UserNotFoundException(email);
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public UserDTO createUser(UserDTO userDTO, JWTokenUserDetails userDetails, String language) throws BusinessException, MappingToEntityException, MappingToDtoException, UserAlreadyExistsException {
+    public UserDTO createUser(UserDTO userDTO, JWTokenUserDetails userDetails) throws BusinessException, MappingToEntityException, MappingToDtoException, UserAlreadyExistsException {
 	userValidator.validateUser(userDTO, HelperAuthorization.hasRole(userDetails.getAuthorities(), RoleType.ROLE_ADMIN), true);
 
 	User user = new User();
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Pair<UserDTO, AuditTraceDTO> updateUser(UserDTO userDTO, JWTokenUserDetails userDetails, String language) throws UserNotFoundException, BusinessException, MappingToEntityException, MappingToDtoException, UserAlreadyExistsException {
+    public Pair<UserDTO, AuditTraceDTO> updateUser(UserDTO userDTO, JWTokenUserDetails userDetails) throws UserNotFoundException, BusinessException, MappingToEntityException, MappingToDtoException, UserAlreadyExistsException {
 	boolean haveAdminRole = HelperAuthorization.hasRole(userDetails.getAuthorities(), RoleType.ROLE_ADMIN);
 
 	String username = userDTO.getUsername();
@@ -169,7 +169,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public void deleteUser(Long id, JWTokenUserDetails userDetails, String language) throws UserNotFoundException, BusinessException {
+    public void deleteUser(Long id, JWTokenUserDetails userDetails) throws UserNotFoundException, BusinessException {
 	boolean haveAdminRole = HelperAuthorization.hasRole(userDetails.getAuthorities(), RoleType.ROLE_ADMIN);
 	boolean haveManagerRole = HelperAuthorization.hasRole(userDetails.getAuthorities(), RoleType.ROLE_MANAGER);
 
@@ -194,7 +194,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, readOnly = true, propagation = Propagation.REQUIRED)
-    public PagedResult<UserDTO> listUser(UserSearchCriteria criteria, Pageable pageable, JWTokenUserDetails userDetails, String language) throws MappingToDtoException {
+    public PagedResult<UserDTO> listUser(UserSearchCriteria criteria, Pageable pageable, JWTokenUserDetails userDetails) throws MappingToDtoException {
 	final Page<User> userPage  = userRepository.findAll(new UserSearchSpecification(criteria), pageable);
 	
 	final Page<UserDTO> dtoPage = userPage.map(user -> {
@@ -216,7 +216,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Throwable.class, propagation = Propagation.REQUIRED)
-    public void changePassword(Long userId, String newPassword, String repeatPassword, JWTokenUserDetails userDetails, String language) throws UserNotFoundException, BusinessException {
+    public void changePassword(Long userId, String newPassword, String repeatPassword, JWTokenUserDetails userDetails) throws UserNotFoundException, BusinessException {
 	boolean haveAdminRole = HelperAuthorization.hasRole(userDetails.getAuthorities(), RoleType.ROLE_ADMIN);
 	boolean haveManagerRole = HelperAuthorization.hasRole(userDetails.getAuthorities(), RoleType.ROLE_MANAGER);
 
@@ -237,7 +237,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Throwable.class, propagation = Propagation.REQUIRED)
-    public void changePassword(String username, String newPassword, String repeatPassword, JWTokenUserDetails userDetails, String language) throws UserNotFoundException, BusinessException {
+    public void changePassword(String username, String newPassword, String repeatPassword, JWTokenUserDetails userDetails) throws UserNotFoundException, BusinessException {
 	boolean haveAdminRole = HelperAuthorization.hasRole(userDetails.getAuthorities(), RoleType.ROLE_ADMIN);
 	boolean haveManagerRole = HelperAuthorization.hasRole(userDetails.getAuthorities(), RoleType.ROLE_MANAGER);
 

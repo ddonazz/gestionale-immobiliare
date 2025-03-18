@@ -1,10 +1,7 @@
 package it.andrea.start.controller.user;
 
-import static it.andrea.start.constants.ApplicationConstants.DEFAULT_LANGUAGE;
-
 import java.util.Collection;
 
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,9 +61,8 @@ public class UserController {
 	    @RequestBody @Validated(OnCreate.class) UserDTO userDTO) throws BusinessException, MappingToEntityException, MappingToDtoException, UserAlreadyExistsException {
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	JWTokenUserDetails userDetails = (JWTokenUserDetails) authentication.getPrincipal();
-	String language = LocaleContextHolder.getLocale().getLanguage();
 	
-	userDTO = userService.createUser(userDTO, userDetails, language);
+	userDTO = userService.createUser(userDTO, userDetails);
 
 	return ResponseEntity.ok(userDTO);
     }
@@ -82,7 +77,6 @@ public class UserController {
     @Audit(activity = AuditActivity.USER_OPERATION, type = AuditTypeOperation.UPDATE)
     public ResponseEntity<UserDTO> updateUser(
 	    HttpServletRequest httpServletRequest,
-	    @RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language,
 	    @RequestBody UserDTO userDTO, 
 	    @PathVariable Long id) throws UserNotFoundException, BusinessException, MappingToEntityException, MappingToDtoException, UserAlreadyExistsException {
 
@@ -90,7 +84,7 @@ public class UserController {
 	JWTokenUserDetails userDetails = (JWTokenUserDetails) authentication.getPrincipal();
 
 	userDTO.setId(id);
-	userDTO = userService.updateUser(userDTO, userDetails, language).getLeft();
+	userDTO = userService.updateUser(userDTO, userDetails).getLeft();
 	
 	return ResponseEntity.ok(userDTO);
     }
@@ -105,13 +99,12 @@ public class UserController {
     @Audit(activity = AuditActivity.USER_OPERATION, type = AuditTypeOperation.DELETE)
     public ResponseEntity<Void> deleteUser(
 	    HttpServletRequest httpServletRequest, 
-	    @RequestHeader(name = "accept-language", defaultValue = DEFAULT_LANGUAGE, required = false) String language, 
 	    @PathVariable Long id) throws UserNotFoundException, BusinessException {
 
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	JWTokenUserDetails userDetails = (JWTokenUserDetails) authentication.getPrincipal();
 
-	userService.deleteUser(id, userDetails, language);
+	userService.deleteUser(id, userDetails);
 
 	return ResponseEntity.ok().build();
     }
@@ -124,7 +117,6 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> infoUser(
-	    @RequestHeader(name = "accept-language", defaultValue = DEFAULT_LANGUAGE, required = false) String language, 
 	    @PathVariable Long id) throws UserNotFoundException, MappingToDtoException  {
 
 	UserDTO userDTO = userService.getUser(id);
@@ -140,7 +132,6 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or hasRole('OPERATOR')")
     @GetMapping("/list")
     public ResponseEntity<PagedResult<UserDTO>> listUser(
-	    @RequestHeader(name = "accept-language", defaultValue = DEFAULT_LANGUAGE, required = false) String language, 
 	    @RequestParam(required = false) Long id, 
 	    @RequestParam(required = false) String username, 
 	    @RequestParam(required = false) String textSearch, 
@@ -160,7 +151,7 @@ public class UserController {
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	JWTokenUserDetails userDetails = (JWTokenUserDetails) authentication.getPrincipal();
 	
-	PagedResult<UserDTO> users = userService.listUser(criteria, pageable, userDetails, language);
+	PagedResult<UserDTO> users = userService.listUser(criteria, pageable, userDetails);
 
 	return ResponseEntity.ok(users);
     }
@@ -173,14 +164,13 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/change-password/{userId}")
     public ResponseEntity<Void> changePassword(
-	    @RequestHeader(name = "accept-language", defaultValue = DEFAULT_LANGUAGE, required = false) String language, 
 	    @PathVariable Long userId, 
 	    @RequestBody ChangePassword changePassword) throws UserNotFoundException, BusinessException  {
 
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	JWTokenUserDetails userDetails = (JWTokenUserDetails) authentication.getPrincipal();
 
-	userService.changePassword(userId, changePassword.getNewPassword(), changePassword.getRepeatPassword(), userDetails, language);
+	userService.changePassword(userId, changePassword.getNewPassword(), changePassword.getRepeatPassword(), userDetails);
 
 	return ResponseEntity.ok().build();
     }
