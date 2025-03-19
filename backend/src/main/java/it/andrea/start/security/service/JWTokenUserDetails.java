@@ -12,6 +12,7 @@ public class JWTokenUserDetails implements UserDetails {
 
     private final String username;
     private final String password;
+    private final Long agency;
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean accountNonExpired;
     private final boolean accountNonLocked;
@@ -21,6 +22,7 @@ public class JWTokenUserDetails implements UserDetails {
     private JWTokenUserDetails(Builder builder) {
 	this.username = Objects.requireNonNull(builder.username);
 	this.password = Objects.requireNonNull(builder.password);
+	this.agency = builder.agency;
 	this.authorities = Collections.unmodifiableCollection(builder.authorities);
         this.accountNonExpired = true;
         this.accountNonLocked = true;
@@ -31,6 +33,7 @@ public class JWTokenUserDetails implements UserDetails {
     public static class Builder {
 	private String username;
 	private String password;
+	private long agency;
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public Builder username(String username) {
@@ -42,7 +45,12 @@ public class JWTokenUserDetails implements UserDetails {
 	    this.password = password;
 	    return this;
 	}
-
+	
+	public Builder agency(Long agency) {
+	    this.agency = agency;
+	    return this;
+	}
+	
 	public Builder authorities(Collection<? extends GrantedAuthority> authorities) {
 	    this.authorities = authorities;
 	    return this;
@@ -66,6 +74,10 @@ public class JWTokenUserDetails implements UserDetails {
     @Override
     public String getUsername() {
 	return username;
+    }
+    
+    public Long getAgency() {
+        return agency;
     }
 
     @Override

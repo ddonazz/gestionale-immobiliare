@@ -27,6 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new JWTokenUserDetails.Builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
+                .agency(user.getAgency().getId())
                 .authorities(user.getAuthorities())
                 .build();
     }

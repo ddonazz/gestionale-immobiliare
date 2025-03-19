@@ -9,15 +9,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import it.andrea.start.annotation.CustomApiOperation;
 import it.andrea.start.dto.JobInfoDTO;
+import it.andrea.start.exception.MappingToDtoException;
 import it.andrea.start.service.JobInfoService;
 
 @RestController
@@ -32,74 +29,97 @@ public class JobController {
 	this.jobInfoService = jobInfoService;
     }
 
-    @Operation(method = "GET", description = "List job defined", summary = "List job defined", responses = { @ApiResponse(responseCode = "200", description = "OK"), @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "401", description = "Not authorized", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true))) })
+    @CustomApiOperation(
+    	    method = "GET",
+    	    description = "Lista dei job definiti",
+    	    summary = "Lista dei job definiti"
+	    )
     @GetMapping("/list")
-    public ResponseEntity<Collection<JobInfoDTO>> listJobs(@RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language) throws Exception {
-
-	Collection<JobInfoDTO> jobs = jobInfoService.listJobs();
-
-	return ResponseEntity.ok(jobs);
+    public ResponseEntity<Collection<JobInfoDTO>> listJobs() throws MappingToDtoException  {
+	return ResponseEntity.ok(jobInfoService.listJobs());
     }
 
-    @Operation(method = "PUT", description = "", summary = "Pianifica un job non in esecuzione", responses = { @ApiResponse(responseCode = "200", description = "OK"), @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "401", description = "Not authorized", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true))) })
-    @PutMapping("/scheduleNewJob/{jobName}")
-    public ResponseEntity<Void> scheduleNewJob(@RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language, @PathVariable String jobName) throws Exception {
-
+    @CustomApiOperation(
+	    method = "PUT",
+	    description = "Pianifica un job non in esecuzione",
+	    summary = "Pianifica un job non in esecuzione"
+	    )
+    @PutMapping("/schedule-new-job/{jobName}")
+    public ResponseEntity<Void> scheduleNewJob(@PathVariable String jobName) throws Exception  {
 	jobInfoService.scheduleNewJob(jobName);
-
+	
 	return ResponseEntity.ok().build();
     }
 
-    @Operation(method = "PUT", description = "Update un job in esecuzione", summary = "Update un job in esecuzione", responses = { @ApiResponse(responseCode = "200", description = "OK"), @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "401", description = "Not authorized", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true))) })
-    @PutMapping("/updateScheduleJob/{jobName}")
-    public ResponseEntity<Void> updateScheduleJob(@RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language, @PathVariable String jobName) throws ParseException  {
+    @CustomApiOperation(
+	    method = "PUT",
+	    description = "Update di un job in esecuzione",
+	    summary = "Update di un job in esecuzione"
+	    )
+    @PutMapping("/update-schedule-job/{jobName}")
+    public ResponseEntity<Void> updateScheduleJob(@PathVariable String jobName) throws ParseException  {
 	jobInfoService.updateScheduleJob(jobName);
-
+	
 	return ResponseEntity.ok().build();
     }
 
-    @Operation(method = "PUT", description = "Disattiva un job dal programma", summary = "Disattiva un job dal programma", responses = { @ApiResponse(responseCode = "200", description = "OK"), @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "401", description = "Not authorized", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true))) })
-    @PutMapping("/unScheduleJob/{jobName}")
-    public ResponseEntity<Void> unScheduleJob(@RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language, @PathVariable String jobName) throws Exception {
-
+    @CustomApiOperation(
+	    method = "PUT",
+	    description = "Disattiva un job dal programma",
+	    summary = "Disattiva un job dal programma"
+	)
+    @PutMapping("/unschedule-job/{jobName}")
+    public ResponseEntity<Void> unScheduleJob(@PathVariable String jobName) {
 	jobInfoService.unScheduleJob(jobName);
-
+	
 	return ResponseEntity.ok().build();
     }
 
-    @Operation(method = "DELETE", description = "Elimina un job dal programma", summary = "Elimina un job dal programma", responses = { @ApiResponse(responseCode = "200", description = "OK"), @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "401", description = "Not authorized", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true))) })
-    @DeleteMapping("/deleteJob/{jobName}")
-    public ResponseEntity<Void> deleteJob(@RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language, @PathVariable String jobName) throws Exception {
-
+    @CustomApiOperation(
+	    method = "DELETE",
+	    description = "Elimina un job dal programma",
+	    summary = "Elimina un job dal programma"
+	)
+    @DeleteMapping("/delete-job/{jobName}")
+    public ResponseEntity<Void> deleteJob(@PathVariable String jobName) throws Exception {
 	jobInfoService.deleteJob(jobName);
-
+	
 	return ResponseEntity.ok().build();
     }
 
-    @Operation(method = "PUT", description = "Metti in pausa un job", summary = "Metti in pausa un job", responses = { @ApiResponse(responseCode = "200", description = "OK"), @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "401", description = "Not authorized", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true))) })
-    @PutMapping("/pauseJob/{jobName}")
-    public ResponseEntity<Void> pauseJob(@RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language, @PathVariable String jobName) throws Exception {
-
+    @CustomApiOperation(
+	    method = "PUT",
+	    description = "Metti in pausa un job",
+	    summary = "Metti in pausa un job"
+	)
+    @PutMapping("/pause-job/{jobName}")
+    public ResponseEntity<Void> pauseJob(@PathVariable String jobName) {
 	jobInfoService.pauseJob(jobName);
-
+	
 	return ResponseEntity.ok().build();
     }
 
-    @Operation(method = "PUT", description = "Riprendi un job messo in pausa", summary = "Riprendi un job messo in pausa", responses = { @ApiResponse(responseCode = "200", description = "OK"), @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "401", description = "Not authorized", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true))) })
+    @CustomApiOperation(
+	    method = "PUT",
+	    description = "Riprendi un job messo in pausa",
+	    summary = "Riprendi un job messo in pausa"
+	)
     @PutMapping("/resumeJob/{jobName}")
-    public ResponseEntity<Void> resumeJob(@RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language, @PathVariable String jobName) throws Exception {
-
+    public ResponseEntity<Void> resumeJob(@PathVariable String jobName)  {
 	jobInfoService.resumeJob(jobName);
-
+	
 	return ResponseEntity.ok().build();
     }
 
-    @Operation(method = "PUT", description = "Avvia un job", summary = "Avvia un job", responses = { @ApiResponse(responseCode = "200", description = "OK"), @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "401", description = "Not authorized", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true))) })
+    @CustomApiOperation(
+	    method = "PUT",
+	    description = "Avvia un job",
+	    summary = "Avvia un job"
+	    )
     @PutMapping("/startJob/{jobName}")
-    public ResponseEntity<Void> startJob(@RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language, @PathVariable String jobName) throws Exception {
-
+    public ResponseEntity<Void> startJob(@PathVariable String jobName) {
 	jobInfoService.startJobNow(jobName);
-
+	
 	return ResponseEntity.ok().build();
     }
 

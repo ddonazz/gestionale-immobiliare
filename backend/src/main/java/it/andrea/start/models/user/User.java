@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import it.andrea.start.constants.UserStatus;
 import it.andrea.start.models.BaseEntityLong;
 import it.andrea.start.models.FirstBaseEntity;
+import it.andrea.start.models.agency.Agency;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -23,6 +24,7 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -64,6 +66,10 @@ public class User extends FirstBaseEntity implements BaseEntityLong, UserDetails
 
     @Column
     private String languageDefault;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "agency_id")
+    private Agency agency;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
@@ -141,6 +147,14 @@ public class User extends FirstBaseEntity implements BaseEntityLong, UserDetails
 
     public void setLanguageDefault(String languageDefault) {
 	this.languageDefault = languageDefault;
+    }
+    
+    public Agency getAgency() {
+        return agency;
+    }
+
+    public void setAgency(Agency agency) {
+        this.agency = agency;
     }
 
     @Override

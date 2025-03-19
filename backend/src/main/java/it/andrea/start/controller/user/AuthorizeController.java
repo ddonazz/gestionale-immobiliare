@@ -60,7 +60,6 @@ public class AuthorizeController {
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> authorize(
 	    HttpServletRequest httpServletRequest, 
-	    @RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language, 
 	    @RequestBody @Validated LoginRequest userAndPassword) {
 	Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAndPassword.getUsername(), userAndPassword.getPassword()));
 	SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -117,11 +116,11 @@ public class AuthorizeController {
 
     @Operation(method = "PUT", description = "Update information current user", summary = "Update information current user", responses = { @ApiResponse(responseCode = "200", description = "OK"), @ApiResponse(responseCode = "400", description = "Bad request"), @ApiResponse(responseCode = "401", description = "Not authorized", content = @Content(schema = @Schema(hidden = true))), @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(hidden = true))) })
     @PutMapping("/updateProfile")
-    public ResponseEntity<UserDTO> updateProfile(@RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language, @RequestBody(required = true) UserDTO userDTO) throws Exception {
+    public ResponseEntity<UserDTO> updateProfile(@RequestBody(required = true) UserDTO userDTO) throws Exception {
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	JWTokenUserDetails userDetails = (JWTokenUserDetails) authentication.getPrincipal();
 
-	userService.updateUser(userDTO, userDetails, language);
+	userService.updateUser(userDTO, userDetails);
 
 	return ResponseEntity.ok(userDTO);
     }
@@ -139,13 +138,12 @@ public class AuthorizeController {
 	    )
     @PostMapping("/changePassword")
     public ResponseEntity<Void> changePassword(
-	    @RequestHeader(name = "accept-language", defaultValue = "it", required = false) String language, 
 	    @RequestBody ChangePassword changePassword) throws Exception {
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	JWTokenUserDetails userDetails = (JWTokenUserDetails) authentication.getPrincipal();
 	String username = userDetails.getUsername();
 
-	userService.changePassword(username, changePassword.getNewPassword(), changePassword.getRepeatPassword(), null, language);
+	userService.changePassword(username, changePassword.getNewPassword(), changePassword.getRepeatPassword(), null);
 
 	return ResponseEntity.ok().build();
     }
