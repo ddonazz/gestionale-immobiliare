@@ -30,9 +30,4 @@ public class LoginRequest implements Serializable {
 	this.password = password;
     }
 
-    @Override
-    public String toString() {
-	return "UserAndPassword [username=" + this.username + ", password= " + this.password + "]";
-    }
-
 }

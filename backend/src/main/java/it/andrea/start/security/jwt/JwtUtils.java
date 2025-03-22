@@ -56,6 +56,7 @@ public class JwtUtils {
                 .claim("authorities", userPrincipal.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .toList())
+                .claim("agency", userPrincipal.getAgency())
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(expiration))
                 .signWith(secretKey)

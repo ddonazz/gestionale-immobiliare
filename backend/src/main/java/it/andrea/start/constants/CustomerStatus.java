@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(enumAsRef = true)
 public enum CustomerStatus {
 
-    PENDING("PENDING"), ACTIVE("ACTIVE"), SUSPENDED("SUSPENDED"), CANCELLED("CANCELLED"), BLACKLIST("BLACKLIST");
+    PENDING("ATTESA"), ACTIVE("ATTIVO"), SUSPENDED("SOSPESO"), CANCELLED("CANCELLATO"), BLACKLIST("BLACKLIST");
 
     // Member to hold the name
     private String string;
